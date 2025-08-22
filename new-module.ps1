@@ -73,8 +73,8 @@ if (-not (Test-Path "$PSScriptRoot\template.psm1") -or -not (Test-Path "$PSScrip
 
 $toDo = "create the project directory specified in the Path parameter and cd to it" 
 Invoke-WithErrorHandling -Context $toDo -Script {
-    New-Item -ItemType Directory -Path $Path
-    Set-Location $Path 
+    New-Item -ItemType Directory -Path $Path -ErrorAction Stop
+    Set-Location $Path -ErrorAction Stop
 }
 Write-Verbose "[*] Created and navigated to new project directory: $Path"
 
@@ -102,7 +102,7 @@ Invoke-WithErrorHandling -Context $todo -Script {
         ".\Functions\Private",
         ".\Functions\Public",
     )
-    New-Item -ItemType Directory -Path $newFolders
+    New-Item -ItemType Directory -Path $newFolders -ErrorAction Stop
 }
 Write-Verbose "[*] Created project directory structure"
 
@@ -114,10 +114,10 @@ Invoke-WithErrorHandling -Context $todo -Script {
         "$ProjectName.psd1",
         "README.MD"
     )
-    New-Item -ItemType File -Name $newFiles
-    Get-Content $PSScriptRoot\template.psm1 | Set-Content "$ProjectName.psm1"
-    Get-Content $PSScriptRoot\template.psd1 | Set-Content "$ProjectName.psd1"
-    "# $ProjectName`nA PowerShell module for [description]" | Set-Content ".\README.MD"
+    New-Item -ItemType File -Name $newFiles -ErrorAction Stop
+    Copy-Item "$PSScriptRoot\template.psm1" "$ProjectName.psm1" -ErrorAction Stop
+    Copy-Item "$PSScriptRoot\template.psd1" "$ProjectName.psd1" -ErrorAction Stop
+    "# $ProjectName`nA PowerShell module for [description]" | Set-Content ".\README.MD" -ErrorAction Stop
 }
 Write-Verbose "[*] Created project files: `n"
 Get-ChildItem
