@@ -26,7 +26,6 @@ param (
     [ValidateNotNullOrEmpty()]
     [string]$ProjectName,
 
-
     [parameter(mandatory=$true)]
     [ValidateNotNullOrEmpty()]
     [string]$RemoteRepo
